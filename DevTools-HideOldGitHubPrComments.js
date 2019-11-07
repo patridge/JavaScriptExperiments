@@ -1,4 +1,4 @@
-let botNamePrefixes = [
+var botNamePrefixes = [
     "opbld",
     "PRMerger",
     "acrolinxatmsft"
@@ -30,10 +30,9 @@ var groupedItemsToProcess = [...document.querySelectorAll(".js-comment-hide-butt
             timelineItem: timelineItem,
             commentHideButton: button,
             foundAuthorPrefix: (() => {
-                console.log([...timelineItem.getElementsByClassName("Details-content--closed")].some(element => element => element.offsetWidth > 0 && element.offsetHeight > 0));
+                let isTimelineItemAlreadyHidden = [...timelineItem.getElementsByClassName("minimized-comment")].some(element => element.offsetWidth > 0 && element.offsetHeight > 0);
 
-                if ([...timelineItem.getElementsByClassName("Details-content--closed")].some(element => element => element.offsetWidth > 0 && element.offsetHeight > 0)) {
-                    // TODO: get this working
+                if (isTimelineItemAlreadyHidden) {
                     // Already showing minimized message: return null to filter later
                     return null;
                 }
@@ -52,16 +51,25 @@ var groupedItemsToProcess = [...document.querySelectorAll(".js-comment-hide-butt
     })
     .filter((historyItem) => historyItem.foundAuthorPrefix !== null)
     .groupBy((historyItem) => historyItem.foundAuthorPrefix);
-console.log(groupedItemsToProcess);
+
 for (var itemGroup in groupedItemsToProcess) {
     if (groupedItemsToProcess.hasOwnProperty(itemGroup)) {
-        // console.log(groupedItemsToProcess[itemGroup]);
         let sortedItemsWithoutNewest = [...groupedItemsToProcess[itemGroup]].sort(function (a, b) { a.itemDate - b.itemDate }).slice(0, -1);
-        console.log(sortedItemsWithoutNewest);
-        sortedItemsWithoutNewest.forEach(x => x.timelineItem.style.border = "1px solid red");
+        sortedItemsWithoutNewest.forEach(itemToHide => {
+            // form.js-comment-minimize
+            let commentHideForm = itemToHide.timelineItem.getElementsByClassName("js-comment-minimize")[0];
+            // > select[name="classifier"]
+            let commentHideReasonSelect = [...commentHideForm.getElementsByTagName("select")].filter(e => e.getAttribute("name") === "classifier")[0];
+            // > button.btn[type="submit"]
+            let commentHideSubmitButton = [...commentHideForm.getElementsByTagName("button")].filter(e => e.classList.contains("btn") && e.getAttribute("type") === "submit")[0];
+
+            // itemToHide.timelineItem.style.border = "1px solid red";
+            itemToHide.commentHideButton.click();
+
+            // select: option[value="OUTDATED"]
+            commentHideReasonSelect.value = "OUTDATED";
+            // Submit form with button.click()
+            commentHideSubmitButton.click();
+        });
     }
 }
-    // .forEach((timelineItemAndHideButton) => {
-    //     // timelineItemAndHideButton.commentHideButton.click();
-    //     console.log(timelineItemAndHideButton);
-    // });
