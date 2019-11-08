@@ -13,15 +13,6 @@ if (!Array.prototype.groupBy) {
         }, {})
     };
 }
-// var testArray = [
-//     {name: "asdf1", key: 1},
-//     {name: "asdf2", key: 2},
-//     {name: "sdf3", key: 3},
-//     {name: "sdf1", key: 1},
-//     {name: "asdf3", key: 3},
-// ]
-// var testArrayGroups = testArray.groupBy((testArrayItem) => testArrayItem.name.substring(testArrayItem.name, 2));
-// console.log(testArrayGroups);
 
 var groupedItemsToProcess = [...document.querySelectorAll(".js-comment-hide-button")] // find all the hide buttons (auto-excludes initial PR "comment" that is also a .TimelineItem element)
     .map((button) => { // Get the nearest timeline item
