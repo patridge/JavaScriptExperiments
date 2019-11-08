@@ -1,3 +1,6 @@
+// NOTE: This is going to live in its own repo, as a Chrome browser extension.
+// https://github.com/patridge/github-pull-request-minimizer
+
 var botNamePrefixes = [
     "opbld",
     "PRMerger",
