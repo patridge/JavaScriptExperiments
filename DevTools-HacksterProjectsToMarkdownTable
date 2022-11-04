@@ -1,0 +1,13 @@
+[...document.querySelectorAll(".hckui__grid__cell")].filter((cell) => {
+    return cell.querySelector("[class^='project_card__title__']")?.text?.indexOf("Netduino") >= 0;
+}).map((cell) => {
+    return {
+        title: cell.querySelector("[class^='project_card__title__']")?.text,
+        url: cell.querySelector("[class^='project_card__title__']")?.attributes["href"]?.value,
+        imgSrc: cell.querySelector("[class^='lazy_image__image__']")?.attributes["src"]?.value,
+        imgAlt: cell.querySelector("[class^='lazy_image__image__']")?.attributes["alt"]?.value,
+        videoSrc: cell.querySelector("[class^='lazy_image__image__'] source")?.attributes["src"]?.value,
+    };
+}).map((project) => {
+    return `| [${project.title}](${project.url}) | ![${project.imgAlt || ""}](${project.imgSrc || project.videoSrc}) |`;
+}).join("\n");
