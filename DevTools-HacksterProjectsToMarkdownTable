@@ -6,6 +6,7 @@
         url: cell.querySelector("[class^='project_card__title__']")?.attributes["href"]?.value,
         imgSrc: cell.querySelector("[class^='lazy_image__image__']")?.attributes["src"]?.value,
         imgAlt: cell.querySelector("[class^='lazy_image__image__']")?.attributes["alt"]?.value,
+        // TODO: Trim off any video URL params that convert the URL to retrieve an MP4 instead.
         videoSrc: cell.querySelector("[class^='lazy_image__image__'] source")?.attributes["src"]?.value,
     };
 }).map((project) => {
